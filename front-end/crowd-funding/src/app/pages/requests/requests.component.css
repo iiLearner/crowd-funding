@@ -1,0 +1,11 @@
+
+.spinner-wrapper {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    height: 85vh;
+  }
+  .inner {
+    color: white;
+    padding: 12px;
+  }

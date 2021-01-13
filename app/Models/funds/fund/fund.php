@@ -15,6 +15,7 @@ class fund extends Model
      */
     protected $fillable = [
         'username',
+        'userid',
         'fund_requests_id',
         'amount',
     ];

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\funds\fund\fund;
+use App\Models\funds\fundRequests;
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\User;
 
@@ -12,9 +12,14 @@ use App\Models\User;
 class AuthController extends Controller
 {
 
+    //no need for token for these
     public function __construct() {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
+
+
+
+
 
     /**
      * Get a JWT via given credentials.
@@ -30,7 +35,7 @@ class AuthController extends Controller
         }
 
         if (! $token = auth()->attempt($req->validated())) {
-            return response()->json(['Auth error' => 'Unauthorized'], 401);
+            return response()->json(['Auth error' => 'Unauthorized', 'status' => 401], 202);
         }
 
         return $this->generateToken($token);
@@ -59,7 +64,8 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'User signed up',
-            'user' => $user
+            'user' => $user,
+            'status' => 202,
         ], 201);
     }
 
@@ -83,7 +89,7 @@ class AuthController extends Controller
      * User
      */
     public function user() {
-        return response()->json(auth()->user());
+        return response()->json(['status' => 202, 'user' => auth()->user()], 202);
     }
 
     /**
@@ -93,8 +99,9 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'status' => 202,
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user()
-        ]);
+        ], 202);
     }
 }
